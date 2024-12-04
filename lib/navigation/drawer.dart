@@ -1,6 +1,7 @@
-import 'package:eksamen/functionality/user/pages/user_settings.dart';
-import 'package:eksamen/navigation/pages/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:mealguider/functionality/recipes/pages/recipe_list_page.dart';
+import 'package:mealguider/functionality/user/pages/user_settings.dart';
+import 'package:mealguider/navigation/pages/home_screen.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -13,7 +14,7 @@ class AppDrawer extends StatelessWidget {
         children: <Widget>[
           const DrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.green,
+              color: Color.fromARGB(118, 0, 0, 0),
             ),
             child: Text(
               'Menu',
@@ -40,6 +41,16 @@ class AppDrawer extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const UserSettings()),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.food_bank),
+            title: const Text('List of Recipes'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RecipesList()),
               );
             },
           ),

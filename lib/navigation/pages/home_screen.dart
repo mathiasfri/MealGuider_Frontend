@@ -1,6 +1,6 @@
-import 'package:eksamen/navigation/drawer.dart';
-import 'package:eksamen/navigation/pages/settings_page.dart';
 import 'package:flutter/material.dart';
+import 'package:mealguider/navigation/drawer.dart';
+import 'package:mealguider/navigation/pages/settings_page.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

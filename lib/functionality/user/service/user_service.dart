@@ -1,8 +1,9 @@
 // ignore_for_file: avoid_print
 
-import 'package:eksamen/utils/constants.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:mealguider/utils/constants.dart';
 
 class UserService {
   Future<List<String>> getGenders() async {

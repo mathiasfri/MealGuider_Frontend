@@ -1,5 +1,5 @@
-import 'package:eksamen/functionality/user/service/user_service.dart';
 import 'package:flutter/material.dart';
+import 'package:mealguider/functionality/user/service/user_service.dart';
 
 class UserSettings extends StatefulWidget {
   const UserSettings({super.key});

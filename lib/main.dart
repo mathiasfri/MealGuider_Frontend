@@ -1,5 +1,5 @@
-import 'package:eksamen/navigation/pages/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:mealguider/navigation/pages/home_screen.dart';
 
 void main() {
   runApp(const MainApp());
