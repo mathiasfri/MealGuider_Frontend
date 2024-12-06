@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mealguider/functionality/recipes/pages/recipe_list_page.dart';
-import 'package:mealguider/functionality/user/pages/user_settings.dart';
+import 'package:mealguider/functionality/user/pages/user_settings_page.dart';
 import 'package:mealguider/navigation/pages/home_screen.dart';
+import 'package:mealguider/navigation/pages/login_page.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -25,6 +26,16 @@ class AppDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
+            leading: const Icon(Icons.login),
+            title: const Text('Login'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginPage()),
+              );
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.home),
             title: const Text('Home'),
             onTap: () {
@@ -40,7 +51,8 @@ class AppDrawer extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const UserSettings()),
+                MaterialPageRoute(
+                    builder: (context) => const UserSettingsPage()),
               );
             },
           ),

@@ -14,9 +14,31 @@ class Recipe {
     required this.time,
     required this.nutrition,
   });
+
+  factory Recipe.fromJson(Map<String, dynamic> json) {
+    return Recipe(
+      id: json['id'],
+      name: json['name'],
+      category: json['category'],
+      difficulty: json['difficulty'],
+      time: json['time'],
+      nutrition: Nutrition.fromJson(json['nutrition']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'category': category,
+      'difficulty': difficulty,
+      'time': time,
+      'nutrition': nutrition.toJson(),
+    };
+  }
 }
 
 class Nutrition {
+  final int id;
   final int servings;
   final int calories;
   final int protein;
@@ -24,10 +46,32 @@ class Nutrition {
   final int carbs;
 
   Nutrition({
+    required this.id,
     required this.servings,
     required this.calories,
     required this.protein,
     required this.fat,
     required this.carbs,
   });
+
+  factory Nutrition.fromJson(Map<String, dynamic> json) {
+    return Nutrition(
+      id: json['id'],
+      servings: json['servings'],
+      calories: json['calories'],
+      protein: json['protein'],
+      fat: json['fat'],
+      carbs: json['carbs'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'servings': servings,
+      'calories': calories,
+      'protein': protein,
+      'fat': fat,
+      'carbs': carbs,
+    };
+  }
 }

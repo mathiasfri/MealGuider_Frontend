@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:mealguider/functionality/user/model/user.dart';
+import 'package:mealguider/functionality/user/model/user_settings.dart';
 import 'package:mealguider/functionality/user/service/user_service.dart';
 
-class UserSettings extends StatefulWidget {
-  const UserSettings({super.key});
+class UserSettingsPage extends StatefulWidget {
+  const UserSettingsPage({super.key});
 
   @override
-  State<UserSettings> createState() => _UserSettingsState();
+  State<UserSettingsPage> createState() => _UserSettingsPageState();
 }
 
-class _UserSettingsState extends State<UserSettings> {
+class _UserSettingsPageState extends State<UserSettingsPage> {
   final _formKey = GlobalKey<FormState>();
 
   // Controllers for text fields
@@ -38,6 +40,29 @@ class _UserSettingsState extends State<UserSettings> {
       genders = gendersList;
       weightGoals = weightGoalsList;
     });
+  }
+
+  void _updateUserSettings() async {
+    // Create test user
+    final User user = User(
+      id: 1,
+      email: "email",
+      allergies: ["Peanuts", "Shellfish"],
+      userSettings: UserSettings(
+        id: 1,
+        age: int.parse(ageController.text),
+        height: int.parse(heightController.text),
+        weight: int.parse(weightController.text),
+        gender: gender!,
+        workRate: int.parse(workoutRateController.text),
+        weightGoal: int.parse(weightGoal!),
+        user: null,
+      ),
+      recipes: [],
+    );
+
+    // Assuming you have a method to send this data to your backend
+    await UserService().updateUserSettings(user.userSettings);
   }
 
   @override
@@ -186,6 +211,7 @@ class _UserSettingsState extends State<UserSettings> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         // Save user information
+                        _updateUserSettings();
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content:

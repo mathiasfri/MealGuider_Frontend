@@ -14,6 +14,7 @@ class RecipesList extends StatelessWidget {
       difficulty: "Medium",
       time: 30,
       nutrition: Nutrition(
+        id: 1,
         servings: 2,
         calories: 600,
         protein: 25,
@@ -28,6 +29,7 @@ class RecipesList extends StatelessWidget {
       difficulty: "Easy",
       time: 20,
       nutrition: Nutrition(
+        id: 2,
         servings: 3,
         calories: 350,
         protein: 30,

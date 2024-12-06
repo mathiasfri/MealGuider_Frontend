@@ -37,9 +37,9 @@ class MainApp extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.green,
             foregroundColor: Colors.white,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 12),
             textStyle:
-                const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
           ),
         ),
       ),
