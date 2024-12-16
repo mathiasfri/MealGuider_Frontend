@@ -1,24 +1,20 @@
-import 'package:mealguider/functionality/user/model/user.dart';
-
 class UserSettings {
-  final int id;
+  final int? id;
   final int age;
   final int height;
   final int weight;
   final String gender;
   final int workRate;
-  final int weightGoal;
-  final User? user;
+  final String weightGoal;
 
   UserSettings({
-    required this.id,
+    this.id,
     required this.age,
     required this.height,
     required this.weight,
     required this.gender,
     required this.workRate,
     required this.weightGoal,
-    this.user,
   });
 
   factory UserSettings.fromJson(Map<String, dynamic> json) {
@@ -30,19 +26,18 @@ class UserSettings {
       gender: json['gender'],
       workRate: json['workRate'],
       weightGoal: json['weightGoal'],
-      user: User.fromJson(json['user']),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'age': age,
       'height': height,
       'weight': weight,
       'gender': gender,
       'workRate': workRate,
       'weightGoal': weightGoal,
-      'user': user!.toJson(),
     };
   }
 }

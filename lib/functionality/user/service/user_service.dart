@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:mealguider/functionality/user/model/user_settings.dart';
 import 'dart:convert';
@@ -36,20 +37,24 @@ class UserService {
   }
 
   Future<void> updateUserSettings(UserSettings userSettings) async {
-    // Update user settings
+    var email = await FlutterSecureStorage().read(key: 'email');
+
     try {
-      Uri url = Uri.parse("$API_URL/userSettings/save");
-      final response = await http.post(url,
-          headers: {'Content-Type': 'application/json'},
-          body: jsonEncode(userSettings.toJson()));
+      Uri url = Uri.parse("$API_URL/userSettings/save?email=$email");
+
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(userSettings.toJson()),
+      );
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        print("User settings updated");
+        print("User settings updated successfully");
       } else {
         print("Failed to update user settings: ${response.statusCode}");
       }
     } catch (e) {
-      print(e);
+      print("Error: $e");
     }
   }
 }

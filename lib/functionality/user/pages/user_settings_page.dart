@@ -43,26 +43,16 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
   }
 
   void _updateUserSettings() async {
-    // Create test user
-    final User user = User(
-      id: 1,
-      email: "email",
-      allergies: ["Peanuts", "Shellfish"],
-      userSettings: UserSettings(
-        id: 1,
-        age: int.parse(ageController.text),
-        height: int.parse(heightController.text),
-        weight: int.parse(weightController.text),
-        gender: gender!,
-        workRate: int.parse(workoutRateController.text),
-        weightGoal: int.parse(weightGoal!),
-        user: null,
-      ),
-      recipes: [],
+    final settings = UserSettings(
+      age: int.parse(ageController.text),
+      height: int.parse(heightController.text),
+      weight: int.parse(weightController.text),
+      gender: gender ?? "UNKNOWN",
+      workRate: int.parse(workoutRateController.text),
+      weightGoal: weightGoal ?? "MAINTAIN",
     );
 
-    // Assuming you have a method to send this data to your backend
-    await UserService().updateUserSettings(user.userSettings);
+    await UserService().updateUserSettings(settings);
   }
 
   @override
