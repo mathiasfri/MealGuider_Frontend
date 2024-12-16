@@ -1,7 +1,85 @@
 import 'package:flutter/material.dart';
+import 'package:mealguider/functionality/authentication/service/auth_service.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final AuthService authService = AuthService();
+
+  void _loginWithGoogle() async {
+    try {
+      final token = await authService.loginWithGoogle();
+      _showSuccess('Google', token!);
+    } catch (e) {
+      _showError('Google', e.toString());
+    }
+  }
+
+  void _loginWithFacebook() async {
+    try {
+      final token = await authService.loginWithFacebook();
+      _showSuccess('Facebook', token!);
+    } catch (e) {
+      _showError('Facebook', e.toString());
+    }
+  }
+
+  void _loginWithGitHub() async {
+    try {
+      final token = await authService.loginWithGitHub();
+      _showSuccess('Microsoft', token!);
+    } catch (e) {
+      _showError('Microsoft', e.toString());
+    }
+  }
+
+  void _loginWithEmailPassword() async {
+    final email = emailController.text.trim();
+    final password = passwordController.text.trim();
+
+    try {
+      final success = await authService.loginWithEmailPassword(email, password);
+      if (success) {
+        _showSuccess('Email/Password', 'Login successful');
+      }
+    } catch (e) {
+      _showError('Email/Password', e.toString());
+    }
+  }
+
+  void _registerWithEmailPassword() async {
+    final email = emailController.text.trim();
+    final password = passwordController.text.trim();
+
+    try {
+      final success =
+          await authService.createUserWithEmailAndPassword(email, password);
+      if (success) {
+        _showSuccess('Email/Password', 'Registration successful');
+      }
+    } catch (e) {
+      _showError('Email/Password', e.toString());
+    }
+  }
+
+  void _showSuccess(String provider, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('$provider Login Successful: $message')),
+    );
+  }
+
+  void _showError(String provider, String error) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('$provider Login Failed: $error')),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -9,20 +87,67 @@ class LoginPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Login Page'),
       ),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SizedBox(height: 20),
             const Text(
-              'Welcome to the Login Page',
-              style: TextStyle(fontSize: 24),
+              'Login',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 40),
+            TextField(
+              controller: emailController,
+              decoration: const InputDecoration(
+                labelText: 'Email',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: passwordController,
+              decoration: const InputDecoration(
+                labelText: 'Password',
+                border: OutlineInputBorder(),
+              ),
+              obscureText: true,
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: _loginWithEmailPassword,
+              child: const Text('Login'),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: _registerWithEmailPassword,
+              child: const Text('Register'),
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Add your onPressed code here!
-              },
-              child: const Text('Login'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  onPressed: _loginWithGoogle,
+                  icon: const Icon(Icons.g_mobiledata),
+                  iconSize: 50,
+                ),
+                const SizedBox(height: 10),
+                IconButton(
+                  onPressed: _loginWithFacebook,
+                  icon: const Icon(Icons.facebook),
+                  color: Colors.blue,
+                  iconSize: 50,
+                ),
+                const SizedBox(height: 10),
+                IconButton(
+                  onPressed: _loginWithGitHub,
+                  icon: const Icon(Icons.mobile_friendly_outlined),
+                  iconSize: 50,
+                ),
+              ],
             ),
           ],
         ),
