@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mealguider/functionality/user/model/user.dart';
 import 'package:mealguider/functionality/user/model/user_settings.dart';
 import 'package:mealguider/functionality/user/service/user_service.dart';
+import 'package:mealguider/utils/code_constants.dart';
 
 class UserSettingsPage extends StatefulWidget {
   const UserSettingsPage({super.key});
@@ -21,15 +22,15 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
 
   List<String>? genders;
   List<String>? weightGoals;
-
   String? gender;
   String? weightGoal;
+
+  final List<String> selectedAllergies = [];
 
   @override
   void initState() {
     super.initState();
 
-    // Initialize dropdown values
     _getEnums();
   }
 
@@ -50,6 +51,7 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
       gender: gender ?? "UNKNOWN",
       workRate: int.parse(workoutRateController.text),
       weightGoal: weightGoal ?? "MAINTAIN",
+      allergies: selectedAllergies.isEmpty ? null : selectedAllergies,
     );
 
     await UserService().updateUserSettings(settings);
@@ -193,7 +195,14 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
                   validator: (value) =>
                       value == null ? 'Please select your weight goal' : null,
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
+
+                // Allergies Selection with Collapse Option
+                ExpansionTile(
+                  title: const Text("Allergies"),
+                  children: _buildCollapsibleAllergies(),
+                ),
+                const SizedBox(height: 16),
 
                 // Save Button
                 Center(
@@ -219,6 +228,25 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
         ),
       ),
     );
+  }
+
+  // Helper for collapsible allergies
+  List<Widget> _buildCollapsibleAllergies() {
+    return commonAllergies
+        .map((allergy) => CheckboxListTile(
+              title: Text(allergy),
+              value: selectedAllergies.contains(allergy),
+              onChanged: (bool? selected) {
+                setState(() {
+                  if (selected == true) {
+                    selectedAllergies.add(allergy);
+                  } else {
+                    selectedAllergies.remove(allergy);
+                  }
+                });
+              },
+            ))
+        .toList();
   }
 
   @override

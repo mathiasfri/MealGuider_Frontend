@@ -6,6 +6,7 @@ class UserSettings {
   final String gender;
   final int workRate;
   final String weightGoal;
+  final List<String>? allergies;
 
   UserSettings({
     this.id,
@@ -15,6 +16,7 @@ class UserSettings {
     required this.gender,
     required this.workRate,
     required this.weightGoal,
+    this.allergies,
   });
 
   factory UserSettings.fromJson(Map<String, dynamic> json) {
@@ -26,6 +28,7 @@ class UserSettings {
       gender: json['gender'],
       workRate: json['workRate'],
       weightGoal: json['weightGoal'],
+      allergies: json['allergies'],
     );
   }
 
@@ -38,6 +41,7 @@ class UserSettings {
       'gender': gender,
       'workRate': workRate,
       'weightGoal': weightGoal,
+      'allergies': allergies,
     };
   }
 }
