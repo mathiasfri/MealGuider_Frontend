@@ -1,43 +1,80 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mealguider/functionality/recipes/model/recipe.dart';
+import 'package:mealguider/functionality/recipes/service/recipe_service.dart';
 import 'package:mealguider/functionality/recipes/widgets/recipe_card.dart';
 
-class RecipesList extends StatelessWidget {
-  RecipesList({super.key});
+class RecipesList extends StatefulWidget {
+  const RecipesList({super.key});
 
-  final List<Recipe> recipes = [
-    // Mock data
-    Recipe(
-      id: 1,
-      name: "Spaghetti Carbonara",
-      category: "Italian",
-      difficulty: "Medium",
-      time: 30,
-      nutrition: Nutrition(
-        id: 1,
-        servings: 2,
-        calories: 600,
-        protein: 25,
-        fat: 30,
-        carbs: 70,
-      ),
-    ),
-    Recipe(
-      id: 2,
-      name: "Chicken Salad",
-      category: "Healthy",
-      difficulty: "Easy",
-      time: 20,
-      nutrition: Nutrition(
-        id: 2,
-        servings: 3,
-        calories: 350,
-        protein: 30,
-        fat: 15,
-        carbs: 20,
-      ),
-    ),
-  ];
+  @override
+  State<RecipesList> createState() => _RecipesListState();
+}
+
+class _RecipesListState extends State<RecipesList> {
+  // final List<Recipe> recipes = [
+  //   // Sample data
+  //   Recipe(
+  //     id: 1,
+  //     name: "Spaghetti Bolognese",
+  //     description: "A classic Italian pasta dish",
+  //     instructions:
+  //         "1. Boil water\n2. Add spaghetti\n3. Cook for 10 minutes\n4. Heat tomato sauce\n5. Brown ground beef\n6. Combine and serve",
+  //     category: "Pasta",
+  //     difficulty: "Easy",
+  //     time: 30,
+  //     ingredients: ["Spaghetti", "Tomato Sauce", "Ground Beef"],
+  //     nutrition: Nutrition(
+  //       servings: 4,
+  //       calories: 500,
+  //       protein: 20,
+  //       fat: 10,
+  //       carbs: 80,
+  //     ),
+  //   ),
+  //   Recipe(
+  //     id: 2,
+  //     name: "Chicken Stir-Fry",
+  //     description: "A quick and healthy meal",
+  //     instructions:
+  //         "1. Heat oil in a pan\n2. Add chicken and stir-fry\n3. Add vegetables\n4. Add sauce\n5. Serve over rice",
+  //     category: "Asian",
+  //     difficulty: "Medium",
+  //     time: 20,
+  //     ingredients: ["Chicken", "Vegetables", "Soy Sauce"],
+  //     nutrition: Nutrition(
+  //       servings: 2,
+  //       calories: 400,
+  //       protein: 30,
+  //       fat: 15,
+  //       carbs: 50,
+  //     ),
+  //   ),
+  // ];
+
+  List<Recipe> recipes = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _getRecipes();
+  }
+
+  Future<void> _getRecipes() async {
+    var userId = await FlutterSecureStorage().read(key: 'id');
+
+    List<Recipe> recipes = await RecipeService().getRecipes(userId);
+
+    if (recipes.isNotEmpty) {
+      setState(() {
+        this.recipes = recipes;
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("No recipes found.")),
+      );
+    }
+  }
 
   void _deleteRecipe(BuildContext context, int index) {
     showDialog(
@@ -131,13 +168,13 @@ class RecipesList extends StatelessWidget {
                     actions: [
                       TextButton(
                         onPressed: () {
-                          Navigator.pop(context, false); // Do not dismiss
+                          Navigator.pop(context, false);
                         },
                         child: const Text("Cancel"),
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.pop(context, true); // Confirm dismissal
+                          Navigator.pop(context, true);
                         },
                         child: const Text(
                           "Delete",
@@ -148,15 +185,13 @@ class RecipesList extends StatelessWidget {
                   ),
                 );
               } else if (direction == DismissDirection.endToStart) {
-                // Handle Download
                 _downloadRecipe(context, recipe);
-                return false; // Prevent dismissal on download
+                return false;
               }
-              return false; // Default case
+              return false;
             },
             onDismissed: (direction) {
               if (direction == DismissDirection.startToEnd) {
-                // Perform deletion only if confirmDismiss allows it
                 _deleteRecipe(context, index);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text("Recipe '${recipe.name}' deleted.")),

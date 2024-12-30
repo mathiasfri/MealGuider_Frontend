@@ -37,10 +37,10 @@ class UserService {
   }
 
   Future<void> updateUserSettings(UserSettings userSettings) async {
-    var email = await FlutterSecureStorage().read(key: 'email');
+    var id = await FlutterSecureStorage().read(key: 'id');
 
     try {
-      Uri url = Uri.parse("$API_URL/userSettings/save?email=$email");
+      Uri url = Uri.parse("$API_URL/userSettings/save/$id");
 
       final response = await http.post(
         url,
@@ -55,6 +55,22 @@ class UserService {
       }
     } catch (e) {
       print("Error: $e");
+    }
+  }
+
+  Future<UserSettings> getUserSettings() async {
+    var id = await FlutterSecureStorage().read(key: 'id');
+
+    try {
+      Uri url = Uri.parse("$API_URL/userSettings/$id");
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        return UserSettings.fromJson(jsonDecode(response.body));
+      } else {
+        throw Exception('Failed to get user settings: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Failed to get user settings: $e');
     }
   }
 }

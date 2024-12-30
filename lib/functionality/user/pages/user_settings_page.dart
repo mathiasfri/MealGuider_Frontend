@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mealguider/functionality/user/model/user.dart';
 import 'package:mealguider/functionality/user/model/user_settings.dart';
 import 'package:mealguider/functionality/user/service/user_service.dart';
 import 'package:mealguider/utils/code_constants.dart';
@@ -32,6 +31,7 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
     super.initState();
 
     _getEnums();
+    _getUserSettings();
   }
 
   void _getEnums() async {
@@ -49,12 +49,30 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
       height: int.parse(heightController.text),
       weight: int.parse(weightController.text),
       gender: gender ?? "UNKNOWN",
-      workRate: int.parse(workoutRateController.text),
+      workoutRate: int.parse(workoutRateController.text),
       weightGoal: weightGoal ?? "MAINTAIN",
       allergies: selectedAllergies.isEmpty ? null : selectedAllergies,
     );
 
     await UserService().updateUserSettings(settings);
+  }
+
+  void _getUserSettings() async {
+    UserSettings? userSettings = await UserService().getUserSettings();
+    if (userSettings.id != null) {
+      setState(() {
+        ageController.text = userSettings.age.toString();
+        heightController.text = userSettings.height.toString();
+        weightController.text = userSettings.weight.toString();
+        workoutRateController.text = userSettings.workoutRate.toString();
+        gender = userSettings.gender;
+        weightGoal = userSettings.weightGoal;
+        selectedAllergies.clear();
+        if (userSettings.allergies != null) {
+          selectedAllergies.addAll(userSettings.allergies!.cast<String>());
+        }
+      });
+    }
   }
 
   @override

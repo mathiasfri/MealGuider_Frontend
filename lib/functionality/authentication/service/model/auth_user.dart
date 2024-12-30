@@ -1,5 +1,5 @@
 class AuthUser {
-  final String id;
+  final int id;
   final String email;
 
   AuthUser({

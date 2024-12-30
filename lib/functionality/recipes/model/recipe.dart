@@ -1,17 +1,23 @@
 class Recipe {
-  final int id;
+  final int? id; // Nullable to handle missing values
   final String name;
+  final String description;
+  final String instructions;
   final String category;
   final String difficulty;
   final int time;
+  final List<String> ingredients;
   final Nutrition nutrition;
 
   Recipe({
-    required this.id,
+    this.id,
     required this.name,
+    required this.description,
+    required this.instructions,
     required this.category,
     required this.difficulty,
     required this.time,
+    required this.ingredients,
     required this.nutrition,
   });
 
@@ -19,26 +25,33 @@ class Recipe {
     return Recipe(
       id: json['id'],
       name: json['name'],
+      description: json['description'],
+      instructions: json['instructions'],
       category: json['category'],
       difficulty: json['difficulty'],
       time: json['time'],
+      ingredients: List<String>.from(json['ingredients']),
       nutrition: Nutrition.fromJson(json['nutrition']),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
+      if (id != null) 'id': id, // Include id only if it's not null
       'name': name,
+      'description': description,
+      'instructions': instructions,
       'category': category,
       'difficulty': difficulty,
       'time': time,
+      'ingredients': ingredients,
       'nutrition': nutrition.toJson(),
     };
   }
 }
 
 class Nutrition {
-  final int id;
+  final int? id;
   final int servings;
   final int calories;
   final int protein;
@@ -46,7 +59,7 @@ class Nutrition {
   final int carbs;
 
   Nutrition({
-    required this.id,
+    this.id,
     required this.servings,
     required this.calories,
     required this.protein,
@@ -67,6 +80,7 @@ class Nutrition {
 
   Map<String, dynamic> toJson() {
     return {
+      if (id != null) 'id': id,
       'servings': servings,
       'calories': calories,
       'protein': protein,

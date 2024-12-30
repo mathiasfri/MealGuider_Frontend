@@ -20,3 +20,6 @@ const List<String> commonAllergies = [
   "Kiwi",
   "Tomatoes",
 ];
+
+String capitalize(String s) =>
+    s[0].toUpperCase() + s.substring(1).toLowerCase();

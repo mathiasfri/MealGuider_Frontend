@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mealguider/functionality/recipes/pages/recipe_generation_page.dart';
 import 'package:mealguider/functionality/recipes/pages/recipe_list_page.dart';
 import 'package:mealguider/functionality/user/pages/user_settings_page.dart';
 import 'package:mealguider/navigation/pages/home_screen.dart';
@@ -63,6 +64,16 @@ class AppDrawer extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => RecipesList()),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.forum_rounded),
+            title: const Text('Generate Recipe'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RecipeGenerationPage()),
               );
             },
           ),

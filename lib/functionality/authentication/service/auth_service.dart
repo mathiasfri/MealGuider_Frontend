@@ -78,9 +78,14 @@ class AuthService {
           },
           body: jsonEncode({'email': email, 'password': password}));
 
-      await FlutterSecureStorage().write(key: 'email', value: email);
+      print("Response: ${response.body}");
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
+        final responseData = jsonDecode(response.body);
+        AuthUser authUser = AuthUser.fromMap(responseData);
+        var id = authUser.id.toString();
+        await FlutterSecureStorage().write(key: 'id', value: id);
+
         print("User logged in successfully");
       } else {
         throw Exception('Failed to login: ${response.statusCode}');
