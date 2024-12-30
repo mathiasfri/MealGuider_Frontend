@@ -3,7 +3,7 @@
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:mealguider/functionality/authentication/service/model/auth_user.dart';
+import 'package:mealguider/functionality/authentication/model/auth_user.dart';
 import 'package:mealguider/utils/constants.dart';
 import 'package:oauth2_client/github_oauth2_client.dart';
 import 'package:oauth2_client/google_oauth2_client.dart';
