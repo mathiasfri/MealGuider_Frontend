@@ -10,7 +10,7 @@ class RecipeService {
   Future<Recipe> generateRecipe(UserSettings userSettings) async {
     final response = await http.post(
       Uri.parse('$API_URL/recipe/generate'),
-      headers: {"Content-Type": "application/json, charset=utf-8"},
+      headers: {"Content-Type": "application/json; charset=utf-8"},
       body: json.encode(userSettings.toJson()),
     );
 
@@ -26,7 +26,7 @@ class RecipeService {
   Future<bool> saveRecipe(Recipe recipe, var userId) async {
     final response = await http.post(
       Uri.parse('$API_URL/recipe/save/$userId'),
-      headers: {"Content-Type": "application/json, charset=utf-8"},
+      headers: {"Content-Type": "application/json; charset=utf-8"},
       body: json.encode(recipe.toJson()),
     );
 

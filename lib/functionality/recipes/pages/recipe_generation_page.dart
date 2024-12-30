@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mealguider/functionality/recipes/model/recipe.dart';
+import 'package:mealguider/functionality/recipes/pages/recipe_detailed_page.dart';
+import 'package:mealguider/functionality/recipes/pages/recipe_list_page.dart';
 import 'package:mealguider/functionality/recipes/service/recipe_service.dart';
 import 'package:mealguider/functionality/user/service/user_service.dart';
+import 'package:mealguider/navigation/pages/home_screen.dart';
 
 class RecipeGenerationPage extends StatefulWidget {
   const RecipeGenerationPage({super.key});
@@ -87,6 +90,8 @@ class _RecipeGenerationPageState extends State<RecipeGenerationPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Recipe saved successfully!")),
         );
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => HomeScreen()));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Failed to save recipe")),
@@ -103,50 +108,54 @@ class _RecipeGenerationPageState extends State<RecipeGenerationPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Center(
-            child: isLoading
-                ? const CircularProgressIndicator()
-                : generatedRecipe == null
-                    ? ElevatedButton(
-                        onPressed: _generateRecipe,
-                        child: const Text("Generate Recipe"),
-                      )
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(generatedRecipe!.name,
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold)),
-                          const SizedBox(height: 10),
-                          Text("Description:\n${generatedRecipe!.description}"),
-                          const SizedBox(height: 10),
-                          Text(
-                              "Ingredients:\n${generatedRecipe!.ingredients.join("\n")}"),
-                          const SizedBox(height: 10),
-                          Text("Category: ${generatedRecipe!.category}"),
-                          const SizedBox(height: 10),
-                          Text("Difficulty: ${generatedRecipe!.difficulty}"),
-                          const SizedBox(height: 10),
-                          Text("Time: ${generatedRecipe!.time} minutes"),
-                          const SizedBox(height: 10),
-                          Text("Nutrition Information:"),
-                          Text(
-                              "- Servings: ${generatedRecipe!.nutrition.servings}"),
-                          Text(
-                              "- Calories: ${generatedRecipe!.nutrition.calories}g"),
-                          Text(
-                              "- Protein: ${generatedRecipe!.nutrition.protein}g"),
-                          Text("- Fat: ${generatedRecipe!.nutrition.fat}g"),
-                          Text("- Carbs: ${generatedRecipe!.nutrition.carbs}g"),
-                          const SizedBox(height: 20),
-                          Center(
-                            child: ElevatedButton(
-                              onPressed: _saveRecipe,
-                              child: const Text("Save Recipe"),
+        child: SingleChildScrollView(
+          child: Center(
+              child: isLoading
+                  ? const CircularProgressIndicator()
+                  : generatedRecipe == null
+                      ? ElevatedButton(
+                          onPressed: _generateRecipe,
+                          child: const Text("Generate Recipe"),
+                        )
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(generatedRecipe!.name,
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold)),
+                            const SizedBox(height: 10),
+                            Text("Category: ${generatedRecipe!.category}"),
+                            const SizedBox(height: 10),
+                            Text("Difficulty: ${generatedRecipe!.difficulty}"),
+                            const SizedBox(height: 10),
+                            Text("Time: ${generatedRecipe!.time} minutes"),
+                            const SizedBox(height: 10),
+                            Text(
+                                "Description:\n${generatedRecipe!.description}"),
+                            const SizedBox(height: 10),
+                            Text(
+                                "Ingredients:\n${generatedRecipe!.ingredients.join("\n")}"),
+                            const SizedBox(height: 10),
+                            Text("Nutrition Information:"),
+                            Text(
+                                "- Servings: ${generatedRecipe!.nutrition.servings}"),
+                            Text(
+                                "- Calories: ${generatedRecipe!.nutrition.calories}g"),
+                            Text(
+                                "- Protein: ${generatedRecipe!.nutrition.protein}g"),
+                            Text("- Fat: ${generatedRecipe!.nutrition.fat}g"),
+                            Text(
+                                "- Carbs: ${generatedRecipe!.nutrition.carbs}g"),
+                            const SizedBox(height: 20),
+                            Center(
+                              child: ElevatedButton(
+                                onPressed: _saveRecipe,
+                                child: const Text("Save Recipe"),
+                              ),
                             ),
-                          ),
-                        ],
-                      )),
+                          ],
+                        )),
+        ),
       ),
     );
   }
