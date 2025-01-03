@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mealguider/functionality/authentication/service/auth_service.dart';
+import 'package:mealguider/navigation/pages/home_screen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -73,6 +74,8 @@ class _LoginPageState extends State<LoginPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('$provider Login Successful: $message')),
     );
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => HomeScreen()));
   }
 
   void _showError(String provider, String error) {
@@ -102,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 20),
             TextField(
               controller: emailController,
               decoration: const InputDecoration(
@@ -130,29 +133,29 @@ class _LoginPageState extends State<LoginPage> {
               child: const Text('Register'),
             ),
             const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  onPressed: _loginWithGoogle,
-                  icon: const Icon(Icons.g_mobiledata),
-                  iconSize: 50,
-                ),
-                const SizedBox(height: 10),
-                IconButton(
-                  onPressed: _loginWithFacebook,
-                  icon: const Icon(Icons.facebook),
-                  color: Colors.blue,
-                  iconSize: 50,
-                ),
-                const SizedBox(height: 10),
-                IconButton(
-                  onPressed: _loginWithGitHub,
-                  icon: const Icon(Icons.mobile_friendly_outlined),
-                  iconSize: 50,
-                ),
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     IconButton(
+            //       onPressed: _loginWithGoogle,
+            //       icon: const Icon(Icons.g_mobiledata),
+            //       iconSize: 50,
+            //     ),
+            //     const SizedBox(height: 10),
+            //     IconButton(
+            //       onPressed: _loginWithFacebook,
+            //       icon: const Icon(Icons.facebook),
+            //       color: Colors.blue,
+            //       iconSize: 50,
+            //     ),
+            //     const SizedBox(height: 10),
+            //     IconButton(
+            //       onPressed: _loginWithGitHub,
+            //       icon: const Icon(Icons.mobile_friendly_outlined),
+            //       iconSize: 50,
+            //     ),
+            //   ],
+            // ),
           ],
         ),
       ),

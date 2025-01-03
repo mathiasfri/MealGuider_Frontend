@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mealguider/navigation/pages/home_screen.dart';
+import 'package:mealguider/navigation/pages/login_page.dart';
 
 void main() {
   runApp(const MainApp());
@@ -43,7 +44,7 @@ class MainApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const HomeScreen(),
+      home: const LoginPage(),
     );
   }
 }

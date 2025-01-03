@@ -64,6 +64,7 @@ class UserService {
     try {
       Uri url = Uri.parse("$API_URL/userSettings/$id");
       final response = await http.get(url);
+      print("Response: ${response.body}");
       if (response.statusCode == 200) {
         return UserSettings.fromJson(jsonDecode(response.body));
       } else {
