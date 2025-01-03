@@ -49,4 +49,20 @@ class RecipeService {
       throw Exception('Failed to get recipes: ${response.statusCode}');
     }
   }
+
+  Future<void> deleteRecipe(int recipeId) async {
+    try {
+      final response = await http.delete(
+        Uri.parse('$API_URL/recipe/delete/$recipeId'),
+      );
+
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        print("Recipe deleted successfully");
+      } else {
+        throw Exception('Failed to delete recipe: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error deleting recipe: $e');
+    }
+  }
 }
