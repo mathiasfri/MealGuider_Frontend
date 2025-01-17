@@ -112,6 +112,8 @@ class AuthService {
           },
           body: jsonEncode({'email': email, 'password': password}));
 
+      print("Response: ${response.body}");
+
       if (response.statusCode >= 200 && response.statusCode < 300) {
         print("User created successfully");
       } else {

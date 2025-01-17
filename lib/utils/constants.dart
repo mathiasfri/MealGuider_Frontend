@@ -1,7 +1,9 @@
 // ignore_for_file: constant_identifier_names, non_constant_identifier_names
 
 // API URL's
-const String API_URL = "http://192.168.1.2:8080";
+//const String API_URL = "http://192.168.1.2:8080";
+const String API_URL =
+    "https://mealguider-e0eda0e8fxeqb2hg.westeurope-01.azurewebsites.net";
 //const String API_URL = "http://localhost:8080";
 
 // AUTH URL's

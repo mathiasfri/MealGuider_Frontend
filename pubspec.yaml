@@ -7,12 +7,14 @@ environment:
   sdk: ^3.5.4
 
 dependencies:
+  dio: ^5.7.0
   flutter:
     sdk: flutter
   flutter_secure_storage: ^9.2.2
   http: ^1.2.2
   oauth2_client: ^3.3.0
   path_provider: ^2.1.5
+  permission_handler: ^11.3.1
 
 dev_dependencies:
   flutter_test:

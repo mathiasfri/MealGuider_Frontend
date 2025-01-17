@@ -56,10 +56,18 @@ class _RecipesListState extends State<RecipesList> {
     }
   }
 
-  void _downloadRecipe(BuildContext context, Recipe recipe) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Downloading '${recipe.name}'...")),
-    );
+  void _downloadRecipe(BuildContext context, Recipe recipe) async {
+    try {
+      await RecipeService().downloadRecipe(recipe.id!, recipe.name);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text("Downloaded '${recipe.name}' PDF successfully.")),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to download recipe: $e')),
+      );
+    }
   }
 
   @override
