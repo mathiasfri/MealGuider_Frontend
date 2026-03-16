@@ -42,5 +42,6 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Windows files as this is only mobile application
+linux/
 windows/
+macos/
