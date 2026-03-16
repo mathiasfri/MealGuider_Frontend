@@ -1,6 +1,6 @@
-import 'package:mealguider/functionality/recipes/model/recipe.dart';
-import 'package:mealguider/functionality/user/model/user_settings.dart';
-
+import 'package:mealguider/models/recipe.dart';
+import 'package:mealguider/models/user_settings.dart';
+/*
 class User {
   final int id;
   final String email;
@@ -33,3 +33,4 @@ class User {
     };
   }
 }
+*/

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mealguider/functionality/authentication/service/auth_service.dart';
+import 'package:mealguider/services/auth_service.dart';
 import 'package:mealguider/navigation/pages/home_screen.dart';
 
 class LoginPage extends StatefulWidget {
@@ -14,42 +14,13 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController passwordController = TextEditingController();
   final AuthService authService = AuthService();
 
-  void _loginWithGoogle() async {
-    try {
-      final token = await authService.loginWithGoogle();
-      _showSuccess('Google', token!);
-    } catch (e) {
-      _showError('Google', e.toString());
-    }
-  }
-
-  void _loginWithFacebook() async {
-    try {
-      final token = await authService.loginWithFacebook();
-      _showSuccess('Facebook', token!);
-    } catch (e) {
-      _showError('Facebook', e.toString());
-    }
-  }
-
-  void _loginWithGitHub() async {
-    try {
-      final token = await authService.loginWithGitHub();
-      _showSuccess('Microsoft', token!);
-    } catch (e) {
-      _showError('Microsoft', e.toString());
-    }
-  }
-
   void _loginWithEmailPassword() async {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
 
     try {
-      final success = await authService.loginWithEmailPassword(email, password);
-      if (success) {
-        _showSuccess('Email/Password', 'Login successful');
-      }
+      await authService.login(email, password);
+      _showSuccess('Email/Password', 'Login successful');
     } catch (e) {
       _showError('Email/Password', e.toString());
     }
@@ -60,11 +31,8 @@ class _LoginPageState extends State<LoginPage> {
     final password = passwordController.text.trim();
 
     try {
-      final success =
-          await authService.createUserWithEmailAndPassword(email, password);
-      if (success) {
-        _showSuccess('Email/Password', 'Registration successful');
-      }
+      await authService.register(email, password);
+      _showSuccess('Email/Password', 'Registration successful');
     } catch (e) {
       _showError('Email/Password', e.toString());
     }
@@ -133,29 +101,6 @@ class _LoginPageState extends State<LoginPage> {
               child: const Text('Register'),
             ),
             const SizedBox(height: 20),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     IconButton(
-            //       onPressed: _loginWithGoogle,
-            //       icon: const Icon(Icons.g_mobiledata),
-            //       iconSize: 50,
-            //     ),
-            //     const SizedBox(height: 10),
-            //     IconButton(
-            //       onPressed: _loginWithFacebook,
-            //       icon: const Icon(Icons.facebook),
-            //       color: Colors.blue,
-            //       iconSize: 50,
-            //     ),
-            //     const SizedBox(height: 10),
-            //     IconButton(
-            //       onPressed: _loginWithGitHub,
-            //       icon: const Icon(Icons.mobile_friendly_outlined),
-            //       iconSize: 50,
-            //     ),
-            //   ],
-            // ),
           ],
         ),
       ),

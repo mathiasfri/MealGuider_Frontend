@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mealguider/functionality/recipes/model/recipe.dart';
-import 'package:mealguider/utils/code_constants.dart';
+import 'package:mealguider/models/recipe.dart';
 
 class RecipeDetailPage extends StatelessWidget {
   final Recipe recipe;
@@ -20,13 +19,13 @@ class RecipeDetailPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Category: ${capitalize(recipe.category)}",
+                "Category: ${recipe.category}",
                 style:
                     const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               Text(
-                "Difficulty: ${capitalize(recipe.difficulty)}",
+                "Difficulty: ${recipe.difficulty}",
                 style: const TextStyle(fontSize: 18),
               ),
               const SizedBox(height: 8),
@@ -52,16 +51,16 @@ class RecipeDetailPage extends StatelessWidget {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              Text(recipe.instructions),
+              Text(recipe.instructions ?? ''),
               const SizedBox(height: 16),
               const Text("Nutrition Information",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
-              Text("Servings: ${recipe.nutrition.servings}"),
-              Text("Calories: ${recipe.nutrition.calories} kcal"),
-              Text("Protein: ${recipe.nutrition.protein} g"),
-              Text("Fat: ${recipe.nutrition.fat} g"),
-              Text("Carbs: ${recipe.nutrition.carbs} g"),
+              Text("Servings: ${recipe.nutrition?.servings}"),
+              Text("Calories: ${recipe.nutrition?.calories} kcal"),
+              Text("Protein: ${recipe.nutrition?.protein} g"),
+              Text("Fat: ${recipe.nutrition?.fat} g"),
+              Text("Carbs: ${recipe.nutrition?.carbs} g"),
             ],
           ),
         ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mealguider/functionality/user/model/user_settings.dart';
-import 'package:mealguider/functionality/user/service/user_service.dart';
-import 'package:mealguider/utils/code_constants.dart';
+import 'package:mealguider/functionality/services/auth_service.dart';
+import 'package:mealguider/models/user_settings.dart';
+import 'package:mealguider/services/user_settings_service.dart';
+import 'package:mealguider/utils/app_constants.dart';
 
 class UserSettingsPage extends StatefulWidget {
   const UserSettingsPage({super.key});
@@ -12,6 +13,8 @@ class UserSettingsPage extends StatefulWidget {
 
 class _UserSettingsPageState extends State<UserSettingsPage> {
   final _formKey = GlobalKey<FormState>();
+  final userSettingsService = UserSettingsService();
+  final currentUser = AuthService().currentUser;
 
   // Controllers for text fields
   final TextEditingController heightController = TextEditingController();
@@ -35,31 +38,30 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
   }
 
   void _getEnums() async {
-    List<String> gendersList = await UserService().getGenders();
-    List<String> weightGoalsList = await UserService().getWeightGoals();
     setState(() {
-      genders = gendersList;
-      weightGoals = weightGoalsList;
+      genders = AppConstants.genders;
+      weightGoals = AppConstants.weightGoals;
     });
   }
 
   void _updateUserSettings() async {
     final settings = UserSettings(
+      userId: currentUser!.id,
       age: int.parse(ageController.text),
       height: int.parse(heightController.text),
       weight: int.parse(weightController.text),
       gender: gender ?? "UNKNOWN",
       workoutRate: int.parse(workoutRateController.text),
       weightGoal: weightGoal ?? "MAINTAIN",
-      allergies: selectedAllergies.isEmpty ? null : selectedAllergies,
+      allergies: selectedAllergies.isEmpty ? [] : selectedAllergies,
     );
 
-    await UserService().updateUserSettings(settings);
+    await UserSettingsService().saveUserSettings(settings);
   }
 
   void _getUserSettings() async {
-    UserSettings? userSettings = await UserService().getUserSettings();
-    if (userSettings.id != null) {
+    UserSettings? userSettings = await userSettingsService.getUserSettings();
+    if (userSettings != null) {
       setState(() {
         ageController.text = userSettings.age.toString();
         heightController.text = userSettings.height.toString();
@@ -68,9 +70,7 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
         gender = userSettings.gender;
         weightGoal = userSettings.weightGoal;
         selectedAllergies.clear();
-        if (userSettings.allergies != null) {
-          selectedAllergies.addAll(userSettings.allergies!.cast<String>());
-        }
+        selectedAllergies.addAll(userSettings.allergies.cast<String>());
       });
     }
   }
@@ -250,7 +250,7 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
 
   // Helper for collapsible allergies
   List<Widget> _buildCollapsibleAllergies() {
-    return commonAllergies
+    return AppConstants.commonAllergies
         .map((allergy) => CheckboxListTile(
               title: Text(allergy),
               value: selectedAllergies.contains(allergy),

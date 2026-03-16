@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mealguider/functionality/recipes/model/recipe.dart';
+import 'package:mealguider/models/nutrition.dart';
+import 'package:mealguider/models/recipe.dart';
 import 'package:mealguider/functionality/recipes/pages/recipe_detailed_page.dart';
-import 'package:mealguider/utils/code_constants.dart';
 
 class RecipeCard extends StatelessWidget {
   final Recipe recipe;
@@ -42,11 +42,11 @@ class RecipeCard extends StatelessWidget {
       child: ListTile(
         title: Text(recipe.name),
         subtitle: Text(
-          "Category: ${capitalize(recipe.category)}\nDifficulty: ${capitalize(recipe.difficulty)}\nTime: ${recipe.time} min",
+          "Category: ${recipe.category}\nDifficulty: ${recipe.difficulty}\nTime: ${recipe.time} min",
         ),
         trailing: IconButton(
           icon: const Icon(Icons.info),
-          onPressed: () => _showNutritionPopup(context, recipe.nutrition),
+          onPressed: () => _showNutritionPopup(context, recipe.nutrition!),
         ),
         onTap: () {
           Navigator.push(

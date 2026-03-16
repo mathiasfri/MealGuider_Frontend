@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mealguider/utils/code_constants.dart';
+import 'package:mealguider/utils/app_constants.dart';
 
 class AllergiesListPage extends StatefulWidget {
   const AllergiesListPage({super.key});
@@ -22,7 +22,7 @@ class _AllergiesListPageState extends State<AllergiesListPage> {
   }
 
   void saveAllergies() {
-    // Handle saving allergies, e.g., send to the backend
+    // TODO: Handle saving allergies, e.g., send to the backend
     print("Selected Allergies: $selectedAllergies");
   }
 
@@ -31,7 +31,7 @@ class _AllergiesListPageState extends State<AllergiesListPage> {
     return Scaffold(
       appBar: AppBar(title: Text("Select Allergies")),
       body: ListView(
-        children: commonAllergies.map((allergy) {
+        children: AppConstants.commonAllergies.map((allergy) {
           return CheckboxListTile(
             title: Text(allergy),
             value: selectedAllergies.contains(allergy),

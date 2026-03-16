@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mealguider/navigation/pages/login_page.dart';
+import 'package:mealguider/services/auth_service.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
 
   void _logout(BuildContext context) async {
-    await FlutterSecureStorage().delete(key: 'id');
+    await AuthService().logout();
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => LoginPage()),

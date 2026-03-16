@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:mealguider/functionality/recipes/model/recipe.dart';
-import 'package:mealguider/functionality/recipes/service/recipe_service.dart';
+import 'package:mealguider/models/recipe.dart';
+import 'package:mealguider/services/auth_service.dart';
+import 'package:mealguider/services/recipe_service.dart';
 import 'package:mealguider/functionality/recipes/widgets/recipe_card.dart';
 
 class RecipesList extends StatefulWidget {
@@ -12,6 +12,8 @@ class RecipesList extends StatefulWidget {
 }
 
 class _RecipesListState extends State<RecipesList> {
+  final recipeService = RecipeService();
+
   List<Recipe> recipes = [];
 
   @override
@@ -21,9 +23,7 @@ class _RecipesListState extends State<RecipesList> {
   }
 
   Future<void> _getRecipes() async {
-    var userId = await FlutterSecureStorage().read(key: 'id');
-
-    List<Recipe> recipes = await RecipeService().getRecipes(userId);
+    List<Recipe> recipes = await recipeService.getRecipes();
 
     if (recipes.isNotEmpty) {
       setState(() {
@@ -57,17 +57,17 @@ class _RecipesListState extends State<RecipesList> {
   }
 
   void _downloadRecipe(BuildContext context, Recipe recipe) async {
-    try {
-      await RecipeService().downloadRecipe(recipe.id!, recipe.name);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text("Downloaded '${recipe.name}' PDF successfully.")),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to download recipe: $e')),
-      );
-    }
+    // try {
+    //   await RecipeService().downloadRecipe(recipe.id!, recipe.name);
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(
+    //         content: Text("Downloaded '${recipe.name}' PDF successfully.")),
+    //   );
+    // } catch (e) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(content: Text('Failed to download recipe: $e')),
+    //   );
+    // }
   }
 
   @override
