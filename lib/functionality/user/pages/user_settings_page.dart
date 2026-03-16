@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mealguider/functionality/services/auth_service.dart';
 import 'package:mealguider/models/user_settings.dart';
+import 'package:mealguider/services/auth_service.dart';
 import 'package:mealguider/services/user_settings_service.dart';
 import 'package:mealguider/utils/app_constants.dart';
+import 'package:mealguider/utils/enum_helper.dart';
 
 class UserSettingsPage extends StatefulWidget {
   const UserSettingsPage({super.key});
@@ -50,9 +51,9 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
       age: int.parse(ageController.text),
       height: int.parse(heightController.text),
       weight: int.parse(weightController.text),
-      gender: gender ?? "UNKNOWN",
       workoutRate: int.parse(workoutRateController.text),
-      weightGoal: weightGoal ?? "MAINTAIN",
+      gender: EnumHelpers.genderToDb(gender) ?? "OTHER",
+      weightGoal: EnumHelpers.weightGoalToDb(weightGoal) ?? "MAINTAIN_WEIGHT",
       allergies: selectedAllergies.isEmpty ? [] : selectedAllergies,
     );
 
@@ -67,8 +68,8 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
         heightController.text = userSettings.height.toString();
         weightController.text = userSettings.weight.toString();
         workoutRateController.text = userSettings.workoutRate.toString();
-        gender = userSettings.gender;
-        weightGoal = userSettings.weightGoal;
+        gender = EnumHelpers.genderToDisplay(userSettings.gender);
+        weightGoal = EnumHelpers.weightGoalToDisplay(userSettings.weightGoal);
         selectedAllergies.clear();
         selectedAllergies.addAll(userSettings.allergies.cast<String>());
       });
@@ -148,7 +149,7 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
 
                 // Gender Dropdown
                 DropdownButtonFormField<String>(
-                  value: gender,
+                  initialValue: gender,
                   decoration: const InputDecoration(
                     labelText: 'Gender',
                     border: OutlineInputBorder(),
@@ -182,7 +183,8 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
                   validator: (value) {
                     if (value == null ||
                         value.isEmpty ||
-                        double.parse(value) > 7) {
+                        double.parse(value) > 7 ||
+                        double.parse(value) < 0) {
                       return 'Please enter a valid number of workout days';
                     }
                     return null;
@@ -192,7 +194,7 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
 
                 // Weight Goal Dropdown
                 DropdownButtonFormField<String>(
-                  value: weightGoal,
+                  initialValue: weightGoal,
                   decoration: const InputDecoration(
                     labelText: 'Weight Goal',
                     border: OutlineInputBorder(),
